@@ -1,6 +1,8 @@
 var WebSocketClient = require('websocket').client;
 var parseString = require('xml2js').parseString;
 
+const fs = require('fs')
+
 console.log("WS App Started.");
 
 var client = new WebSocketClient();
@@ -59,6 +61,10 @@ client.on('connect', function (connection) {
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
             const xml = message.utf8Data;
+            console.log(xml);
+
+            const data = fs.writeFileSync('out.xml', xml, { flag: 'a+' }, )
+            /*
             parseString(xml, function (err, result) {
                 const evt = result.Event;
                 if (evt) {
@@ -68,7 +74,7 @@ client.on('connect', function (connection) {
                     }
                 }
                 //console.dir(JSON.stringify(result));
-            });
+            });*/
         }
     });
 
